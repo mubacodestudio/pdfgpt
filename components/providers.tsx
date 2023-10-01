@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, PropsWithChildren } from "react";
+import { useState, PropsWithChildren } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { trpc } from "@/app/_trpc/client";
 import { httpBatchLink } from "@trpc/client";
@@ -12,15 +12,7 @@ const Providers = ({ children }: PropsWithChildren) => {
       links: [httpBatchLink({ url: `http://localhost:3000/api/trpc` })],
     })
   );
-  const [isMounted, setIsMounted] = useState(false);
 
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  if (!isMounted) {
-    return null;
-  }
   return (
     <trpc.Provider client={trpcClient} queryClient={queryClient}>
       <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
